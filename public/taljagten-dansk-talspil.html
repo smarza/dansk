@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Taljagten - dansk talspil</title>
+  <style>
+    :root{
+      --bg1:#23154f; --bg2:#40249b; --panel:rgba(255,255,255,.13); --panel2:rgba(255,255,255,.22);
+      --text:#fff; --muted:rgba(255,255,255,.78); --shadow:0 18px 45px rgba(0,0,0,.28);
+      --radius:24px; --green:#39c86a; --danger:#ff607a; --gold:#ffd15c;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;overflow:hidden;font-family:ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#1d1240;color:var(--text)}
+    body{height:100svh;background:radial-gradient(circle at 20% 8%,#805cff 0 18%,transparent 36%),radial-gradient(circle at 85% 18%,#00c2ff 0 11%,transparent 28%),linear-gradient(135deg,var(--bg1),var(--bg2));}
+    button,select,input{font:inherit}
+    .app{height:100svh;width:min(100%,980px);margin:0 auto;padding:clamp(10px,2.4svh,22px);display:flex;flex-direction:column;gap:clamp(8px,1.8svh,16px)}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:0}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#ff4f7b,#ffd15c);display:grid;place-items:center;box-shadow:var(--shadow);font-size:27px;transform:rotate(-5deg);flex:0 0 auto}
+    h1{font-size:clamp(1.35rem,3.8vw,2.5rem);line-height:1;margin:0;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .subtitle{font-size:.92rem;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{border:0;border-radius:999px;background:var(--panel);color:#fff;padding:9px 13px;backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);font-weight:700}
+    .pill.small{font-size:.86rem;padding:8px 10px;color:var(--muted);font-weight:650}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+    .hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:10px}
+    .hud-card{background:rgba(255,255,255,.13);border-radius:18px;padding:9px 12px;text-align:center;min-width:0}
+    .hud-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;white-space:nowrap}
+    .hud-value{font-size:clamp(1.1rem,3vw,1.8rem);font-weight:900;line-height:1.05;margin-top:3px}
+    .bar-wrap{height:10px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden;margin:0 12px 10px}
+    .bar{height:100%;width:100%;background:linear-gradient(90deg,#46e58c,#ffd15c,#ff607a);transform-origin:left center;transition:width .18s linear}
+    .stage{flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(8px,1.8svh,14px)}
+    .prompt{padding:clamp(12px,2svh,18px);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:0}
+    .prompt-main{min-width:0}
+    .prompt-kicker{color:var(--muted);font-weight:750;font-size:clamp(.82rem,2vw,.98rem);margin-bottom:4px}
+    .prompt-text{font-size:clamp(1.15rem,3.6vw,2rem);font-weight:950;line-height:1.08;margin:0}
+    .listen{border:0;border-radius:22px;background:linear-gradient(135deg,#fff,#e8e1ff);color:#271358;padding:clamp(11px,2.4vw,18px) clamp(14px,3.2vw,24px);font-weight:950;box-shadow:0 12px 28px rgba(0,0,0,.24);display:flex;align-items:center;gap:10px;white-space:nowrap;cursor:pointer;touch-action:manipulation}
+    .listen:active{transform:translateY(1px) scale(.99)}
+    .speaker{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#6f4cff;color:#fff;font-size:15px}
+    .choices{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:clamp(9px,1.6svh,16px)}
+    .choice{position:relative;border:0;border-radius:clamp(18px,3vw,30px);box-shadow:0 16px 36px rgba(0,0,0,.22);color:#fff;font-size:clamp(2.2rem,13vw,6.2rem);font-weight:1000;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:manipulation;transition:transform .12s ease,filter .12s ease,opacity .18s ease}
+    .choice:hover{transform:translateY(-2px)}
+    .choice:active{transform:translateY(1px) scale(.992)}
+    .choice[disabled]{cursor:default;opacity:.74;filter:saturate(.85)}
+    .choice::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 20%,rgba(255,255,255,.34),transparent 34%);pointer-events:none}
+    .choice::after{position:absolute;left:16px;top:14px;font-size:clamp(1.1rem,3vw,2rem);opacity:.95;filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}
+    .c0{background:linear-gradient(135deg,#f3445d,#cb173e)} .c0::after{content:"▲"}
+    .c1{background:linear-gradient(135deg,#3489ff,#1456d6)} .c1::after{content:"◆"}
+    .c2{background:linear-gradient(135deg,#ffbd35,#f18a00)} .c2::after{content:"●"}
+    .c3{background:linear-gradient(135deg,#42cf73,#13984a)} .c3::after{content:"■"}
+    .choice.correct{outline:5px solid rgba(255,255,255,.9);filter:saturate(1.25) brightness(1.08)}
+    .choice.wrong{animation:shake .28s linear 1;filter:grayscale(.15) brightness(.78)}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+    .feedback{min-height:42px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:clamp(.95rem,2.2vw,1.25rem);color:#fff;padding:0 8px}
+    .overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(13,7,34,.55);backdrop-filter:blur(18px);padding:18px;z-index:5}
+    .modal{width:min(100%,560px);border-radius:30px;padding:clamp(20px,4vw,34px);text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.23),rgba(255,255,255,.1));border:1px solid rgba(255,255,255,.26);box-shadow:var(--shadow)}
+    .modal h2{font-size:clamp(2rem,7vw,4rem);line-height:1;margin:0 0 10px}
+    .modal p{font-size:clamp(1rem,2.6vw,1.2rem);color:var(--muted);margin:8px auto;max-width:44ch}
+    .primary{border:0;border-radius:999px;background:#fff;color:#271358;padding:14px 22px;margin-top:16px;font-weight:950;box-shadow:0 12px 26px rgba(0,0,0,.25);cursor:pointer}
+    .settings{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:.9rem}
+    .settings select,.settings input{max-width:190px;border:0;border-radius:12px;padding:8px;background:rgba(255,255,255,.92);color:#24134f}
+    .settings label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .hidden{display:none!important}
+    @media (max-width:700px){
+      .app{padding:10px;gap:8px}
+      .logo{width:42px;height:42px;border-radius:14px;font-size:23px}
+      .subtitle{display:none}
+      .top-actions{gap:6px}.pill{padding:8px 10px;font-size:.9rem}.pill.small{display:none}
+      .hud{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px}.hud-card{padding:7px 5px;border-radius:14px}.hud-label{font-size:.58rem}.hud-value{font-size:1.05rem}
+      .bar-wrap{height:8px;margin:0 8px 7px}
+      .prompt{padding:10px;border-radius:18px}.prompt-kicker{font-size:.76rem}.prompt-text{font-size:1.14rem}
+      .listen{padding:10px 12px;border-radius:18px}.speaker{width:26px;height:26px}.listen span:last-child{display:none}
+      .choices{gap:8px}.choice{border-radius:18px;font-size:clamp(2.2rem,18vw,4.8rem)}.choice::after{left:11px;top:9px}
+      .feedback{min-height:30px;font-size:.95rem}
+      .modal{border-radius:24px;padding:20px 16px}.settings{font-size:.82rem}.settings select{max-width:160px}
+    }
+    @media (max-height:620px){
+      .app{gap:6px}.hud-card{padding-top:5px;padding-bottom:5px}.prompt{padding-top:8px;padding-bottom:8px}.feedback{min-height:25px;font-size:.86rem}.choice{font-size:clamp(2rem,12svh,4.7rem)}
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-live="polite">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🎧</div>
+        <div>
+          <h1>Taljagten</h1>
+          <div class="subtitle">Lyt til tallet, og vælg det rigtige kort.</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="pill small" id="voiceStatus">Dansk stemme</div>
+        <button class="pill" id="restartBtn" type="button">Ny runde</button>
+      </div>
+    </header>
+
+    <section class="panel hud" aria-label="Status">
+      <div class="hud-card"><div class="hud-label">Runde</div><div class="hud-value"><span id="roundNo">1</span>/20</div></div>
+      <div class="hud-card"><div class="hud-label">Point</div><div class="hud-value" id="score">0</div></div>
+      <div class="hud-card"><div class="hud-label">Rigtige</div><div class="hud-value" id="correctCount">0</div></div>
+      <div class="hud-card"><div class="hud-label">Tid</div><div class="hud-value"><span id="timeLeft">15</span>s</div></div>
+    </section>
+    <div class="bar-wrap" aria-hidden="true"><div class="bar" id="timerBar"></div></div>
+
+    <section class="stage">
+      <div class="panel prompt">
+        <div class="prompt-main">
+          <div class="prompt-kicker">Hemmeligt tal</div>
+          <p class="prompt-text" id="instruction">Tryk på lydknappen, og vælg tallet.</p>
+        </div>
+        <button class="listen" id="speakBtn" type="button" aria-label="Lyt til tallet">
+          <span class="speaker">▶</span><span>Lyt til tallet</span>
+        </button>
+      </div>
+      <div class="choices" id="choices" aria-label="Svarmuligheder"></div>
+      <div class="feedback" id="feedback">Klar?</div>
+    </section>
+  </main>
+
+  <div class="overlay" id="startOverlay">
+    <div class="modal">
+      <h2>Taljagten</h2>
+      <p>Du får 20 tal. Lyt på dansk, vælg det rigtige kort, og få 5 point for hvert rigtigt svar.</p>
+      <button class="primary" id="startBtn" type="button">Start spillet</button>
+      <div class="settings" aria-label="Lydindstillinger">
+        <label>Stemme <select id="voiceSelect"><option>Finder stemmer...</option></select></label>
+        <label>Hastighed <input id="rate" type="range" min="0.75" max="1.1" step="0.05" value="0.9"></label>
+        <label><input id="autoSpeak" type="checkbox" checked> Afspil automatisk</label>
+      </div>
+      <p style="font-size:.88rem">Danske stemmer afhænger af browser og operativsystem.</p>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="endOverlay">
+    <div class="modal">
+      <h2 id="endTitle">Godt spillet!</h2>
+      <p id="endStats"></p>
+      <button class="primary" id="playAgainBtn" type="button">Spil igen</button>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_ROUNDS = 20;
+    const ROUND_SECONDS = 15;
+    const POINTS_PER_CORRECT = 5;
+    const ones = ["nul","en","to","tre","fire","fem","seks","syv","otte","ni"];
+    const teens = ["ti","elleve","tolv","tretten","fjorten","femten","seksten","sytten","atten","nitten"];
+    const tens = {20:"tyve",30:"tredive",40:"fyrre",50:"halvtreds",60:"tres",70:"halvfjerds",80:"firs",90:"halvfems"};
+    const state = {round:0, score:0, correct:0, target:0, choices:[], locked:false, timer:null, startTime:0, remaining:ROUND_SECONDS, gameNumbers:[]};
+    const $ = id => document.getElementById(id);
+    const els = {
+      roundNo:$("roundNo"), score:$("score"), correctCount:$("correctCount"), timeLeft:$("timeLeft"), timerBar:$("timerBar"), choices:$("choices"), feedback:$("feedback"), speakBtn:$("speakBtn"), startOverlay:$("startOverlay"), endOverlay:$("endOverlay"), startBtn:$("startBtn"), playAgainBtn:$("playAgainBtn"), restartBtn:$("restartBtn"), endStats:$("endStats"), endTitle:$("endTitle"), voiceSelect:$("voiceSelect"), rate:$("rate"), voiceStatus:$("voiceStatus"), autoSpeak:$("autoSpeak")
+    };
+
+    function numberWord(n){
+      if(n < 10) return ones[n];
+      if(n < 20) return teens[n-10];
+      if(n % 10 === 0) return tens[n];
+      return ones[n % 10] + "og" + tens[Math.floor(n/10)*10];
+    }
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+      return arr;
+    }
+    function makeGameNumbers(){
+      const set = new Set();
+      while(set.size < TOTAL_ROUNDS) set.add(randInt(0,99));
+      return Array.from(set);
+    }
+    function makeChoices(target){
+      const set = new Set([target]);
+      const candidates = [];
+      const add = n => { if(n>=0 && n<=99 && n!==target) candidates.push(n); };
+      add(target-1); add(target+1); add(target-10); add(target+10);
+      if(target >= 10){ const rev = Number(String(target).padStart(2,"0").split("").reverse().join("")); add(rev); }
+      add((target+5)%100); add((target+20)%100);
+      shuffle(candidates).forEach(n => { if(set.size < 4) set.add(n); });
+      while(set.size < 4){ const n = randInt(0,99); if(n !== target) set.add(n); }
+      return shuffle(Array.from(set));
+    }
+
+    function getVoices(){ return speechSynthesis.getVoices ? speechSynthesis.getVoices() : []; }
+    function preferredVoice(){
+      const voices = getVoices();
+      const selectedName = els.voiceSelect.value;
+      return voices.find(v => v.name === selectedName) || voices.find(v => /^da([-_]|$)/i.test(v.lang)) || voices.find(v => /danish|dansk/i.test(v.name)) || voices[0] || null;
+    }
+    function populateVoices(){
+      const voices = getVoices();
+      const da = voices.filter(v => /^da([-_]|$)/i.test(v.lang) || /danish|dansk/i.test(v.name));
+      const list = da.length ? da : voices;
+      els.voiceSelect.innerHTML = "";
+      if(!list.length){
+        const opt = document.createElement("option"); opt.textContent = "Standardstemme"; els.voiceSelect.appendChild(opt); return;
+      }
+      list.forEach(v => { const opt=document.createElement("option"); opt.value=v.name; opt.textContent=`${v.name} (${v.lang || "?"})`; els.voiceSelect.appendChild(opt); });
+      const firstDa = list.find(v => /^da([-_]|$)/i.test(v.lang)); if(firstDa) els.voiceSelect.value = firstDa.name;
+      updateVoiceStatus();
+    }
+    function updateVoiceStatus(){
+      const v = preferredVoice();
+      els.voiceStatus.textContent = v && /^da([-_]|$)/i.test(v.lang) ? "Dansk stemme" : "Standardstemme";
+    }
+    function speakTarget(){
+      if(!("speechSynthesis" in window)) { els.feedback.textContent = "TTS er ikke tilgængelig i denne browser."; return; }
+      const utter = new SpeechSynthesisUtterance(numberWord(state.target));
+      const v = preferredVoice(); if(v) utter.voice = v;
+      utter.lang = v && v.lang ? v.lang : "da-DK";
+      utter.rate = Number(els.rate.value || .9);
+      utter.pitch = 1;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    }
+
+    function resetHud(){
+      els.roundNo.textContent = state.round + 1;
+      els.score.textContent = state.score;
+      els.correctCount.textContent = state.correct;
+      els.timeLeft.textContent = ROUND_SECONDS;
+      els.timerBar.style.width = "100%";
+    }
+    function startGame(){
+      speechSynthesis.cancel();
+      state.round = 0; state.score = 0; state.correct = 0; state.gameNumbers = makeGameNumbers();
+      els.startOverlay.classList.add("hidden"); els.endOverlay.classList.add("hidden");
+      startRound();
+    }
+    function startRound(){
+      clearInterval(state.timer);
+      state.locked = false;
+      state.target = state.gameNumbers[state.round];
+      state.choices = makeChoices(state.target);
+      resetHud();
+      els.feedback.textContent = "Lyt, og vælg det rigtige tal.";
+      renderChoices();
+      startTimer();
+      if(els.autoSpeak.checked) setTimeout(speakTarget, 260);
+    }
+    function renderChoices(){
+      els.choices.innerHTML = "";
+      state.choices.forEach((num, index) => {
+        const btn = document.createElement("button");
+        btn.className = `choice c${index}`;
+        btn.type = "button";
+        btn.textContent = num;
+        btn.setAttribute("aria-label", `Svarmulighed ${num}`);
+        btn.addEventListener("click", () => choose(num, btn));
+        els.choices.appendChild(btn);
+      });
+    }
+    function startTimer(){
+      state.startTime = performance.now();
+      state.timer = setInterval(() => {
+        const elapsed = (performance.now() - state.startTime) / 1000;
+        const left = Math.max(0, ROUND_SECONDS - elapsed);
+        els.timeLeft.textContent = Math.ceil(left);
+        els.timerBar.style.width = `${(left / ROUND_SECONDS) * 100}%`;
+        if(left <= 0){ clearInterval(state.timer); timeoutRound(); }
+      }, 100);
+    }
+    function lockButtons(){
+      Array.from(els.choices.children).forEach(btn => btn.disabled = true);
+    }
+    function highlightCorrect(){
+      Array.from(els.choices.children).forEach(btn => { if(Number(btn.textContent) === state.target) btn.classList.add("correct"); });
+    }
+    function choose(num, btn){
+      if(state.locked) return;
+      state.locked = true; clearInterval(state.timer); lockButtons();
+      if(num === state.target){
+        state.score += POINTS_PER_CORRECT; state.correct += 1;
+        btn.classList.add("correct");
+        els.feedback.textContent = `Rigtigt! +${POINTS_PER_CORRECT} point`;
+      } else {
+        btn.classList.add("wrong"); highlightCorrect();
+        els.feedback.textContent = `Forkert. Det var ${state.target}.`;
+      }
+      els.score.textContent = state.score; els.correctCount.textContent = state.correct;
+      setTimeout(nextRound, 1050);
+    }
+    function timeoutRound(){
+      if(state.locked) return;
+      state.locked = true; lockButtons(); highlightCorrect();
+      els.timeLeft.textContent = "0"; els.timerBar.style.width = "0%";
+      els.feedback.textContent = `Tiden er gået. Det var ${state.target}.`;
+      setTimeout(nextRound, 1300);
+    }
+    function nextRound(){
+      if(state.round + 1 >= TOTAL_ROUNDS) return endGame();
+      state.round += 1;
+      startRound();
+    }
+    function endGame(){
+      clearInterval(state.timer); speechSynthesis.cancel();
+      const percent = Math.round((state.correct / TOTAL_ROUNDS) * 100);
+      els.endTitle.textContent = percent >= 80 ? "Flot klaret!" : percent >= 50 ? "God indsats!" : "Prøv igen!";
+      els.endStats.textContent = `Du fik ${state.correct} ud af ${TOTAL_ROUNDS} rigtige. Træfsikkerhed: ${percent}%. Samlet point: ${state.score}.`;
+      els.endOverlay.classList.remove("hidden");
+    }
+
+    els.speakBtn.addEventListener("click", speakTarget);
+    els.startBtn.addEventListener("click", startGame);
+    els.playAgainBtn.addEventListener("click", startGame);
+    els.restartBtn.addEventListener("click", () => { els.startOverlay.classList.remove("hidden"); clearInterval(state.timer); speechSynthesis.cancel(); });
+    els.voiceSelect.addEventListener("change", updateVoiceStatus);
+    if("speechSynthesis" in window){
+      populateVoices();
+      speechSynthesis.onvoiceschanged = populateVoices;
+    } else {
+      els.voiceStatus.textContent = "Ingen TTS";
+      els.voiceSelect.innerHTML = "<option>TTS mangler</option>";
+    }
+  </script>
+</body>
+</html>
