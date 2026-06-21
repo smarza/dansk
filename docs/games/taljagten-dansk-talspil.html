@@ -61,6 +61,9 @@
     .settings{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:.9rem}
     .settings select,.settings input{max-width:190px;border:0;border-radius:12px;padding:8px;background:rgba(255,255,255,.92);color:#24134f}
     .settings label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .audio-notice{border-radius:18px;padding:12px 14px;margin-top:14px;font-size:.88rem;line-height:1.45;text-align:left;max-width:44ch;margin-left:auto;margin-right:auto}
+    .audio-notice.warning{background:rgba(255,209,92,.18);border:1px solid rgba(255,209,92,.45);color:#fff}
+    .audio-notice.info{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted)}
     .hidden{display:none!important}
     @media (max-width:700px){
       .app{padding:10px;gap:8px}
@@ -124,12 +127,12 @@
       <h2>Taljagten</h2>
       <p>Du får 20 tal. Lyt på dansk, vælg det rigtige kort, og få 5 point for hvert rigtigt svar.</p>
       <button class="primary" id="startBtn" type="button">Start spillet</button>
-      <div class="settings" aria-label="Lydindstillinger">
+      <div class="settings" id="voiceSettings" aria-label="Lydindstillinger">
         <label>Stemme <select id="voiceSelect"><option>Finder stemmer...</option></select></label>
         <label>Hastighed <input id="rate" type="range" min="0.75" max="1.1" step="0.05" value="0.9"></label>
         <label><input id="autoSpeak" type="checkbox" checked> Afspil automatisk</label>
       </div>
-      <p style="font-size:.88rem">Danske stemmer afhænger af browser og operativsystem.</p>
+      <div class="audio-notice info" id="audioNotice" role="status"></div>
     </div>
   </div>
 
@@ -151,8 +154,27 @@
     const state = {round:0, score:0, correct:0, target:0, choices:[], locked:false, timer:null, startTime:0, remaining:ROUND_SECONDS, gameNumbers:[]};
     const $ = id => document.getElementById(id);
     const els = {
-      roundNo:$("roundNo"), score:$("score"), correctCount:$("correctCount"), timeLeft:$("timeLeft"), timerBar:$("timerBar"), choices:$("choices"), feedback:$("feedback"), speakBtn:$("speakBtn"), startOverlay:$("startOverlay"), endOverlay:$("endOverlay"), startBtn:$("startBtn"), playAgainBtn:$("playAgainBtn"), restartBtn:$("restartBtn"), endStats:$("endStats"), endTitle:$("endTitle"), voiceSelect:$("voiceSelect"), rate:$("rate"), voiceStatus:$("voiceStatus"), autoSpeak:$("autoSpeak")
+      roundNo:$("roundNo"), score:$("score"), correctCount:$("correctCount"), timeLeft:$("timeLeft"), timerBar:$("timerBar"), choices:$("choices"), feedback:$("feedback"), speakBtn:$("speakBtn"), startOverlay:$("startOverlay"), endOverlay:$("endOverlay"), startBtn:$("startBtn"), playAgainBtn:$("playAgainBtn"), restartBtn:$("restartBtn"), endStats:$("endStats"), endTitle:$("endTitle"), voiceSelect:$("voiceSelect"), rate:$("rate"), voiceStatus:$("voiceStatus"), autoSpeak:$("autoSpeak"), voiceSettings:$("voiceSettings"), audioNotice:$("audioNotice")
     };
+
+    function isWindows(){
+      const userAgent = navigator.userAgent || "";
+      return /Windows/i.test(userAgent);
+    }
+    function configureAudioPlatform(){
+      const windows = isWindows();
+
+      if(windows){
+        els.voiceSettings.classList.add("hidden");
+        els.voiceStatus.classList.add("hidden");
+        els.audioNotice.className = "audio-notice warning";
+        els.audioNotice.textContent = "Dansk udtale virker desværre ikke ordentligt på Windows. For god lyd anbefaler vi Android — eller iPhone/iPad med dansk stemmepakke installeret.";
+        return;
+      }
+
+      els.audioNotice.className = "audio-notice info";
+      els.audioNotice.textContent = "Dansk udtale er bedst på Android. På iPhone/iPad skal du måske installere dansk stemme under indstillinger først.";
+    }
 
     function numberWord(n){
       if(n < 10) return ones[n];
@@ -306,10 +328,11 @@
     els.playAgainBtn.addEventListener("click", startGame);
     els.restartBtn.addEventListener("click", () => { els.startOverlay.classList.remove("hidden"); clearInterval(state.timer); speechSynthesis.cancel(); });
     els.voiceSelect.addEventListener("change", updateVoiceStatus);
-    if("speechSynthesis" in window){
+    configureAudioPlatform();
+    if("speechSynthesis" in window && !isWindows()){
       populateVoices();
       speechSynthesis.onvoiceschanged = populateVoices;
-    } else {
+    } else if(!("speechSynthesis" in window)) {
       els.voiceStatus.textContent = "Ingen TTS";
       els.voiceSelect.innerHTML = "<option>TTS mangler</option>";
     }
