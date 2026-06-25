@@ -3,198 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRÆS 1-11 - Build-up</title>
+  <title>PRÆS 1-11 - Build-up med engelsk</title>
   <style>
     :root{
-      --bg:#f7f3ea;
-      --paper:#fffdf8;
-      --ink:#1f2933;
-      --muted:#667085;
-      --line:#e2d8c8;
-      --accent:#246b61;
-      --accent-soft:#e3f4ef;
-      --answer:#1f7a4d;
-      --answer-bg:#edf9f1;
-      --number:#8a5a00;
-      --number-bg:#fff4ce;
-      --source-bg:#f6efe3;
+      --bg:#f7f3ea; --paper:#fffdf8; --ink:#1f2933; --muted:#667085; --line:#e2d8c8;
+      --accent:#246b61; --accent-soft:#e3f4ef; --answer:#1f7a4d; --answer-bg:#edf9f1;
+      --question:#175c83; --question-bg:#edf7ff; --number:#8a5a00; --number-bg:#fff4ce; --translation-bg:#f5f0ff;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:linear-gradient(180deg,#f2eadf 0%,var(--bg) 38%,#faf7f0 100%);
-      color:var(--ink);
-      line-height:1.45;
-    }
-    .page{
-      width:min(100%,980px);
-      margin:0 auto;
-      padding:24px 16px 48px;
-    }
-    header{
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:22px;
-      box-shadow:0 10px 30px rgba(47,35,20,.08);
-      margin-bottom:18px;
-    }
-    .kicker{
-      color:var(--accent);
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      font-size:.82rem;
-    }
-    h1{
-      margin:.2rem 0 .4rem;
-      font-size:clamp(1.8rem,4vw,3rem);
-      line-height:1.05;
-    }
-    .subtitle{margin:0;color:var(--muted)}
-    .toolbar{
-      margin-top:16px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      padding:12px;
-      background:var(--accent-soft);
-      border:1px solid #c5e7dd;
-      border-radius:14px;
-    }
-    label{font-size:.92rem;font-weight:650;color:#244940}
-    select,input[type="range"]{max-width:100%;font:inherit}
-    select{
-      padding:8px 10px;
-      border-radius:10px;
-      border:1px solid #b7cec7;
-      background:#fff;
-      min-width:220px;
-    }
-    .note{
-      margin-top:12px;
-      padding:10px 12px;
-      border-left:4px solid var(--answer);
-      background:var(--answer-bg);
-      border-radius:10px;
-      color:#24563a;
-      font-size:.95rem;
-    }
-    .section{
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:18px;
-      margin-top:18px;
-      box-shadow:0 6px 18px rgba(47,35,20,.06);
-    }
-    .section-title{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:end;
-      border-bottom:2px solid var(--line);
-      padding-bottom:10px;
-      margin-bottom:14px;
-    }
-    h2{margin:0;font-size:1.35rem;color:#5b3518}
-    .source-ref{color:var(--muted);font-size:.95rem}
-    .exercise-list{
-      display:grid;
-      gap:12px;
-    }
-    .item{
-      display:grid;
-      grid-template-columns:44px 1fr;
-      gap:10px;
-      padding:13px;
-      background:#fffaf1;
-      border:1px solid #eadfcd;
-      border-radius:14px;
-    }
-    .num{
-      width:34px;height:34px;
-      display:grid;place-items:center;
-      background:#eadcc9;
-      color:#5b3518;
-      border-radius:50%;
-      font-weight:800;
-    }
-    .content{min-width:0}
-    .source{
-      color:#796956;
-      font-size:.9rem;
-      margin-bottom:6px;
-      overflow-wrap:anywhere;
-    }
-    .answer{
-      display:flex;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:6px;
-      color:var(--answer);
-      background:var(--answer-bg);
-      border:1px solid #c7ebd3;
-      border-radius:12px;
-      padding:9px 10px;
-      font-weight:700;
-      overflow-wrap:anywhere;
-    }
-    .answer.question{color:#175c83;background:#edf7ff;border-color:#c7e5f7}
-    button.tts{
-      border:0;
-      border-radius:999px;
-      padding:6px 9px;
-      font-weight:750;
-      cursor:pointer;
-      background:var(--accent);
-      color:white;
-      min-width:34px;
-      min-height:32px;
-      box-shadow:0 2px 6px rgba(0,0,0,.12);
-    }
-    button.tts:hover{filter:brightness(.95)}
-    button.numtts{
-      background:var(--number-bg);
-      color:var(--number);
-      border:1px solid #f0d88d;
-      box-shadow:none;
-    }
-    .help-box{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:12px;
-      margin-top:12px;
-    }
-    .rule{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      background:#fffaf1;
-    }
-    .rule strong{color:#5b3518}
-    .status{font-size:.88rem;color:var(--muted);flex-basis:100%}
-    @media (max-width:700px){
-      .page{padding:12px 10px 32px}
-      header,.section{border-radius:14px;padding:14px}
-      .toolbar{align-items:stretch;flex-direction:column}
-      select{min-width:0;width:100%}
-      .item{grid-template-columns:36px 1fr;padding:10px}
-      .num{width:30px;height:30px;font-size:.9rem}
-      .answer{padding:8px;font-size:.98rem}
-      button.tts{min-height:36px;padding:7px 10px}
-    }
+    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f2eadf 0%,var(--bg) 38%,#faf7f0 100%);color:var(--ink);line-height:1.45}
+    .page{width:min(100%,980px);margin:0 auto;padding:24px 16px 48px}
+    header,.section{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(47,35,20,.08)}
+    header{padding:22px;margin-bottom:18px}.section{padding:18px;margin-top:18px;box-shadow:0 6px 18px rgba(47,35,20,.06)}
+    .kicker{color:var(--accent);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.82rem}
+    h1{margin:.2rem 0 .4rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1.05}.subtitle{margin:0;color:var(--muted)}
+    .toolbar{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px;background:var(--accent-soft);border:1px solid #c5e7dd;border-radius:14px}
+    label{font-size:.92rem;font-weight:650;color:#244940}select,input[type="range"]{max-width:100%;font:inherit}select{padding:8px 10px;border-radius:10px;border:1px solid #b7cec7;background:#fff;min-width:220px}
+    .status{font-size:.88rem;color:var(--muted);flex-basis:100%}.note{margin-top:12px;padding:10px 12px;border-left:4px solid var(--answer);background:var(--answer-bg);border-radius:10px;color:#24563a;font-size:.95rem}
+    .top-actions{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}.toggle{border:0;border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer;background:#5b3518;color:white;min-height:38px}.toggle[aria-pressed="true"]{background:#6b46c1}
+    .section-title{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:14px}h2{margin:0;font-size:1.35rem;color:#5b3518}.source-ref{color:var(--muted);font-size:.95rem}
+    .help-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}.rule{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fffaf1}.rule strong{color:#5b3518}
+    .exercise-list{display:grid;gap:12px}.item{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:13px;background:#fffaf1;border:1px solid #eadfcd;border-radius:14px}.num{width:34px;height:34px;display:grid;place-items:center;background:#eadcc9;color:#5b3518;border-radius:50%;font-weight:800}.content{min-width:0}.source{color:#796956;font-size:.9rem;margin-bottom:6px;overflow-wrap:anywhere}
+    .answer{display:flex;align-items:center;flex-wrap:wrap;gap:6px;color:var(--answer);background:var(--answer-bg);border:1px solid #c7ebd3;border-radius:12px;padding:9px 10px;font-weight:750;overflow-wrap:anywhere}.answer.question{color:var(--question);background:var(--question-bg);border-color:#c7e5f7}
+    .translation{margin-top:6px;padding:8px 10px;background:var(--translation-bg);border:1px solid #ded3ff;border-radius:12px;color:#4a3b7a;font-size:.94rem}.translation strong{font-weight:800}.hide-translations .translation{display:none}
+    button.tts{border:0;border-radius:999px;padding:6px 9px;font-weight:800;cursor:pointer;background:var(--accent);color:white;min-width:34px;min-height:32px;box-shadow:0 2px 6px rgba(0,0,0,.12)}button.tts:hover{filter:brightness(.95)}button.numtts{background:var(--number-bg);color:var(--number);border:1px solid #f0d88d;box-shadow:none}
+    @media (max-width:700px){.page{padding:12px 10px 32px}header,.section{border-radius:14px;padding:14px}.toolbar{align-items:stretch;flex-direction:column}.top-actions{align-items:stretch;flex-direction:column}select{min-width:0;width:100%}.item{grid-template-columns:36px 1fr;padding:10px}.num{width:30px;height:30px;font-size:.9rem}.answer{padding:8px;font-size:.98rem}button.tts,.toggle{min-height:38px;padding:7px 10px}}
   </style>
 </head>
 <body>
-  <main class="page">
+  <main class="page" id="app">
     <header>
       <div class="kicker">PVTD · PRÆS 1-11</div>
       <h1>3.1 Præs. · Build-up</h1>
-      <p class="subtitle">Lav korrekte spørgsmål og sætninger. Grøn/blå tekst viser de udfyldte modelanswers.</p>
+      <p class="subtitle">Lav korrekte spørgsmål og sætninger. Grøn/blå tekst viser de udfyldte model answers.</p>
       <div class="toolbar" aria-label="Dansk lyd">
         <label for="voiceSelect">Dansk lyd:</label>
         <select id="voiceSelect"><option>Indlæser stemmer...</option></select>
@@ -202,7 +43,10 @@
         <input id="rateRange" type="range" min="0.55" max="1.15" step="0.05" value="0.85">
         <div class="status" id="voiceStatus">Danish voices depend on your browser/OS. On mobile it may work better.</div>
       </div>
-      <div class="note">Ekstra gule knapper læser kun tallet, når en sætning indeholder tal.</div>
+      <div class="top-actions">
+        <button class="toggle" id="translationToggle" type="button" aria-pressed="true">Ocultar traduções em inglês</button>
+      </div>
+      <div class="note">As traduções em inglês podem ser ligadas ou desligadas. Os botões verdes/azuis falam somente o dinamarquês. Os botões amarelos falam somente os números.</div>
     </header>
 
     <section class="section">
@@ -211,41 +55,55 @@
         <div class="source-ref">LT, 26 <button class="tts numtts" data-speak="seksogtyve" title="Læs kun tallet 26">▶ 26</button></div>
       </div>
       <div class="help-box">
-        <div class="rule"><strong>Hv-spørgsmål:</strong><br>Hv-ord + verbum + subjekt<br><em>Hvor bor du?</em></div>
-        <div class="rule"><strong>Sætning:</strong><br>Subjekt + verbum + resten<br><em>Jeg bor i Aalborg.</em></div>
+        <div class="rule"><strong>Hv-spørgsmål:</strong><br>Hv-ord + verbum + subjekt<br><em>Hvor bor du?</em><div class="translation"><strong>English:</strong> Wh-word + verb + subject. Where do you live?</div></div>
+        <div class="rule"><strong>Sætning:</strong><br>Subjekt + verbum + resten<br><em>Jeg bor i Aalborg.</em><div class="translation"><strong>English:</strong> Subject + verb + the rest. I live in Aalborg.</div></div>
       </div>
     </section>
 
     <section class="section">
-      <div class="section-title">
-        <h2>Opgaver med svar</h2>
-      </div>
-      <div class="exercise-list">
-        <article class="item"><div class="num">1</div><div class="content"><div class="source">hvad / du / hedder / ?</div><div class="answer question"><button class="tts" data-speak="Hvad hedder du?">▶</button>Hvad hedder du?</div></div></article>
-        <article class="item"><div class="num">2</div><div class="content"><div class="source">kommer / fra / du / hvor / ?</div><div class="answer question"><button class="tts" data-speak="Hvor kommer du fra?">▶</button>Hvor kommer du fra?</div></div></article>
-        <article class="item"><div class="num">3</div><div class="content"><div class="source">gammel / hvor / er / du / ?</div><div class="answer question"><button class="tts" data-speak="Hvor gammel er du?">▶</button>Hvor gammel er du?</div></div></article>
-        <article class="item"><div class="num">4</div><div class="content"><div class="source">hvad / taler / du / ?</div><div class="answer question"><button class="tts" data-speak="Hvad taler du?">▶</button>Hvad taler du?</div></div></article>
-        <article class="item"><div class="num">5</div><div class="content"><div class="source">hvad / din / adresse / er / ?</div><div class="answer question"><button class="tts" data-speak="Hvad er din adresse?">▶</button>Hvad er din adresse?</div></div></article>
-        <article class="item"><div class="num">6</div><div class="content"><div class="source">bor / du / hvor / ?</div><div class="answer question"><button class="tts" data-speak="Hvor bor du?">▶</button>Hvor bor du?</div></div></article>
-        <article class="item"><div class="num">7</div><div class="content"><div class="source">hedder / jeg / Lotte /.</div><div class="answer"><button class="tts" data-speak="Jeg hedder Lotte.">▶</button>Jeg hedder Lotte.</div></div></article>
-        <article class="item"><div class="num">8</div><div class="content"><div class="source">er / jeg / år / 60 /.</div><div class="answer"><button class="tts" data-speak="Jeg er tres år.">▶</button>Jeg er 60 år. <button class="tts numtts" data-speak="tres" title="Læs kun tallet 60">▶ 60</button></div></div></article>
-        <article class="item"><div class="num">9</div><div class="content"><div class="source">kommer / jeg / fra / Danmark /.</div><div class="answer"><button class="tts" data-speak="Jeg kommer fra Danmark.">▶</button>Jeg kommer fra Danmark.</div></div></article>
-        <article class="item"><div class="num">10</div><div class="content"><div class="source">Nibevej 15 / det / er /.</div><div class="answer"><button class="tts" data-speak="Det er Nibevej femten.">▶</button>Det er Nibevej 15. <button class="tts numtts" data-speak="femten" title="Læs kun tallet 15">▶ 15</button></div></div></article>
-        <article class="item"><div class="num">11</div><div class="content"><div class="source">jeg / dansk, engelsk og tysk / taler /.</div><div class="answer"><button class="tts" data-speak="Jeg taler dansk, engelsk og tysk.">▶</button>Jeg taler dansk, engelsk og tysk.</div></div></article>
-        <article class="item"><div class="num">12</div><div class="content"><div class="source">i / Aalborg / bor / jeg /.</div><div class="answer"><button class="tts" data-speak="Jeg bor i Aalborg.">▶</button>Jeg bor i Aalborg.</div></div></article>
-        <article class="item"><div class="num">13</div><div class="content"><div class="source">er / hct-jobcenter@aalborg.dk / det /.</div><div class="answer"><button class="tts" data-speak="Det er h c t bindestreg jobcenter snabel-a aalborg punktum d k.">▶</button>Det er hct-jobcenter@aalborg.dk.</div></div></article>
-        <article class="item"><div class="num">14</div><div class="content"><div class="source">telefonnummer / hvad / dit / er / ?</div><div class="answer question"><button class="tts" data-speak="Hvad er dit telefonnummer?">▶</button>Hvad er dit telefonnummer?</div></div></article>
-        <article class="item"><div class="num">15</div><div class="content"><div class="source">mailadresse / din / hvad / er / ?</div><div class="answer question"><button class="tts" data-speak="Hvad er din mailadresse?">▶</button>Hvad er din mailadresse?</div></div></article>
-        <article class="item"><div class="num">16</div><div class="content"><div class="source">jeg / dansker / er /.</div><div class="answer"><button class="tts" data-speak="Jeg er dansker.">▶</button>Jeg er dansker.</div></div></article>
-        <article class="item"><div class="num">17</div><div class="content"><div class="source">din / nationalitet / er / hvad / ?</div><div class="answer question"><button class="tts" data-speak="Hvad er din nationalitet?">▶</button>Hvad er din nationalitet?</div></div></article>
-        <article class="item"><div class="num">18</div><div class="content"><div class="source">er / Ole / det /.</div><div class="answer"><button class="tts" data-speak="Det er Ole.">▶</button>Det er Ole.</div></div></article>
-        <article class="item"><div class="num">19</div><div class="content"><div class="source">er / det / 21 34 56 78 /.</div><div class="answer"><button class="tts" data-speak="Det er enogtyve fireogtredive seksoghalvtreds otteoghalvfjerds.">▶</button>Det er 21 34 56 78. <button class="tts numtts" data-speak="enogtyve" title="Læs kun 21">▶ 21</button><button class="tts numtts" data-speak="fireogtredive" title="Læs kun 34">▶ 34</button><button class="tts numtts" data-speak="seksoghalvtreds" title="Læs kun 56">▶ 56</button><button class="tts numtts" data-speak="otteoghalvfjerds" title="Læs kun 78">▶ 78</button></div></div></article>
-        <article class="item"><div class="num">20</div><div class="content"><div class="source">er / hvem / det /.</div><div class="answer question"><button class="tts" data-speak="Hvem er det?">▶</button>Hvem er det?</div></div></article>
-      </div>
+      <div class="section-title"><h2>Opgaver med svar</h2></div>
+      <div class="exercise-list" id="exerciseList"></div>
     </section>
   </main>
 
   <script>
+    const items = [
+      {n:1, source:'hvad / du / hedder / ?', text:'Hvad hedder du?', speak:'Hvad hedder du?', type:'question', en:'What is your name?'},
+      {n:2, source:'kommer / fra / du / hvor / ?', text:'Hvor kommer du fra?', speak:'Hvor kommer du fra?', type:'question', en:'Where do you come from?'},
+      {n:3, source:'gammel / hvor / er / du / ?', text:'Hvor gammel er du?', speak:'Hvor gammel er du?', type:'question', en:'How old are you?'},
+      {n:4, source:'hvad / taler / du / ?', text:'Hvad taler du?', speak:'Hvad taler du?', type:'question', en:'What do you speak?'},
+      {n:5, source:'hvad / din / adresse / er / ?', text:'Hvad er din adresse?', speak:'Hvad er din adresse?', type:'question', en:'What is your address?'},
+      {n:6, source:'bor / du / hvor / ?', text:'Hvor bor du?', speak:'Hvor bor du?', type:'question', en:'Where do you live?'},
+      {n:7, source:'hedder / jeg / Lotte /.', text:'Jeg hedder Lotte.', speak:'Jeg hedder Lotte.', type:'answer', en:'My name is Lotte.'},
+      {n:8, source:'er / jeg / år / 60 /.', text:'Jeg er 60 år.', speak:'Jeg er tres år.', type:'answer', en:'I am 60 years old.', nums:[['60','tres']]},
+      {n:9, source:'kommer / jeg / fra / Danmark /.', text:'Jeg kommer fra Danmark.', speak:'Jeg kommer fra Danmark.', type:'answer', en:'I come from Denmark.'},
+      {n:10, source:'Nibevej 15 / det / er /.', text:'Det er Nibevej 15.', speak:'Det er Nibevej femten.', type:'answer', en:'It is Nibevej 15.', nums:[['15','femten']]},
+      {n:11, source:'jeg / dansk, engelsk og tysk / taler /.', text:'Jeg taler dansk, engelsk og tysk.', speak:'Jeg taler dansk, engelsk og tysk.', type:'answer', en:'I speak Danish, English and German.'},
+      {n:12, source:'i / Aalborg / bor / jeg /.', text:'Jeg bor i Aalborg.', speak:'Jeg bor i Aalborg.', type:'answer', en:'I live in Aalborg.'},
+      {n:13, source:'er / hct-jobcenter@aalborg.dk / det /.', text:'Det er hct-jobcenter@aalborg.dk.', speak:'Det er h c t bindestreg jobcenter snabel-a aalborg punktum d k.', type:'answer', en:'It is hct-jobcenter@aalborg.dk.'},
+      {n:14, source:'telefonnummer / hvad / dit / er / ?', text:'Hvad er dit telefonnummer?', speak:'Hvad er dit telefonnummer?', type:'question', en:'What is your phone number?'},
+      {n:15, source:'mailadresse / din / hvad / er / ?', text:'Hvad er din mailadresse?', speak:'Hvad er din mailadresse?', type:'question', en:'What is your email address?'},
+      {n:16, source:'jeg / dansker / er /.', text:'Jeg er dansker.', speak:'Jeg er dansker.', type:'answer', en:'I am Danish.'},
+      {n:17, source:'din / nationalitet / er / hvad / ?', text:'Hvad er din nationalitet?', speak:'Hvad er din nationalitet?', type:'question', en:'What is your nationality?'},
+      {n:18, source:'er / Ole / det /.', text:'Det er Ole.', speak:'Det er Ole.', type:'answer', en:'It is Ole.'},
+      {n:19, source:'er / det / 21 34 56 78 /.', text:'Det er 21 34 56 78.', speak:'Det er enogtyve fireogtredive seksoghalvtreds otteoghalvfjerds.', type:'answer', en:'It is 21 34 56 78.', nums:[['21','enogtyve'],['34','fireogtredive'],['56','seksoghalvtreds'],['78','otteoghalvfjerds']]},
+      {n:20, source:'er / hvem / det /.', text:'Hvem er det?', speak:'Hvem er det?', type:'question', en:'Who is it?'}
+    ];
+
+    const list = document.getElementById('exerciseList');
+    list.innerHTML = items.map(item => {
+      const numButtons = (item.nums || []).map(([label, speak]) => `<button class="tts numtts" data-speak="${speak}" title="Læs kun tallet ${label}">▶ ${label}</button>`).join('');
+      return `<article class="item"><div class="num">${item.n}</div><div class="content"><div class="source">${item.source}</div><div class="answer ${item.type === 'question' ? 'question' : ''}"><button class="tts" data-speak="${item.speak}">▶</button><span>${item.text}</span>${numButtons}</div><div class="translation"><strong>English:</strong> ${item.en}</div></div></article>`;
+    }).join('');
+
+    const app = document.getElementById('app');
+    const translationToggle = document.getElementById('translationToggle');
+    translationToggle.addEventListener('click', () => {
+      const hidden = app.classList.toggle('hide-translations');
+      translationToggle.setAttribute('aria-pressed', String(!hidden));
+      translationToggle.textContent = hidden ? 'Mostrar traduções em inglês' : 'Ocultar traduções em inglês';
+    });
+
     const voiceSelect = document.getElementById('voiceSelect');
     const rateRange = document.getElementById('rateRange');
     const rateValue = document.getElementById('rateValue');
@@ -256,14 +114,11 @@
       voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
       voiceSelect.innerHTML = '';
       if(!voices.length){
-        const opt = document.createElement('option');
-        opt.textContent = 'No voices found';
-        voiceSelect.appendChild(opt);
-        return;
+        const opt = document.createElement('option'); opt.textContent = 'No voices found'; voiceSelect.appendChild(opt); return;
       }
       const da = voices.filter(v => (v.lang || '').toLowerCase().startsWith('da'));
-      const list = da.length ? da : voices;
-      list.forEach((v, i) => {
+      const selectedList = da.length ? da : voices;
+      selectedList.forEach(v => {
         const opt = document.createElement('option');
         opt.value = voices.indexOf(v);
         opt.textContent = `${v.name} (${v.lang})${v.default ? ' · default' : ''}`;
@@ -273,12 +128,8 @@
       voiceStatus.textContent = da.length ? 'Danish voice found. You can change voice and speed.' : 'No Danish voice found. The browser will use a fallback voice.';
     }
 
-    if('speechSynthesis' in window){
-      loadVoices();
-      speechSynthesis.onvoiceschanged = loadVoices;
-    } else {
-      voiceStatus.textContent = 'Speech synthesis is not supported in this browser.';
-    }
+    if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+    else { voiceStatus.textContent = 'Speech synthesis is not supported in this browser.'; }
 
     rateRange.addEventListener('input', () => rateValue.textContent = rateRange.value);
 
@@ -286,16 +137,13 @@
       if(!('speechSynthesis' in window)) return;
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'da-DK';
-      utterance.rate = parseFloat(rateRange.value || '0.85');
-      const selected = voices[parseInt(voiceSelect.value, 10)];
-      if(selected) utterance.voice = selected;
+      utterance.lang = 'da-DK'; utterance.rate = parseFloat(rateRange.value || '0.85');
+      const selected = voices[parseInt(voiceSelect.value, 10)]; if(selected) utterance.voice = selected;
       speechSynthesis.speak(utterance);
     }
 
-    document.addEventListener('click', (event) => {
-      const btn = event.target.closest('[data-speak]');
-      if(!btn) return;
+    document.addEventListener('click', event => {
+      const btn = event.target.closest('[data-speak]'); if(!btn) return;
       speak(btn.getAttribute('data-speak'));
     });
   </script>
