@@ -88,6 +88,10 @@
       margin: 0 0 16px;
     }
 
+    .section + .section {
+      margin-top: clamp(32px, 5vw, 48px);
+    }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
@@ -189,10 +193,42 @@
 
         <div>
           <h1>Dansk</h1>
-          <p class="subtitle">Vælg et spil, og øv dig i dansk på en sjov måde.</p>
+          <p class="subtitle">Vælg en øvelse eller et spil, og øv dig i dansk.</p>
         </div>
       </div>
     </header>
+
+    <section aria-labelledby="exercises-heading">
+      <h2 class="section-title" id="exercises-heading">Øvelser</h2>
+
+      <ul class="cards">
+        <li>
+          <a class="card-link" href="exercises/puls-3-dialog-09-sheng-memorization.html">
+            <div class="card-icon" aria-hidden="true">💬</div>
+
+            <div class="card-body">
+              <span class="card-tag">PULS · Præsentation 1</span>
+              <h3 class="card-title">Dialog 9 · Sheng</h3>
+              <p class="card-description">Memorér dialogen: lyt, gentag, skjul dele og øv hele teksten med dansk lyd.</p>
+              <span class="card-action">Åbn øvelse →</span>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a class="card-link" href="exercises/praes-1-11-build-up-tts.html">
+            <div class="card-icon" aria-hidden="true">📝</div>
+
+            <div class="card-body">
+              <span class="card-tag">PVTD · PRÆS 1-11</span>
+              <h3 class="card-title">3.1 Præs. · Build-up</h3>
+              <p class="card-description">Lav korrekte spørgsmål og sætninger. Grøn/blå tekst viser modelanswers med dansk lyd.</p>
+              <span class="card-action">Åbn øvelse →</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </section>
 
     <section aria-labelledby="games-heading">
       <h2 class="section-title" id="games-heading">Spil</h2>
@@ -214,7 +250,7 @@
     </section>
 
     <footer>
-      <p>Flere spil kommer snart.</p>
+      <p>Flere øvelser og spil kommer snart.</p>
     </footer>
   </div>
 </body>
