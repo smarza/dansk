@@ -44,9 +44,9 @@
         <div class="status" id="voiceStatus">Danish voices depend on your browser/OS. On mobile it may work better.</div>
       </div>
       <div class="top-actions">
-        <button class="toggle" id="translationToggle" type="button" aria-pressed="true">Ocultar traduções em inglês</button>
+        <button class="toggle" id="translationToggle" type="button" aria-pressed="true">Hide English translations</button>
       </div>
-      <div class="note">As traduções em inglês podem ser ligadas ou desligadas. Os botões verdes/azuis falam somente o dinamarquês. Os botões amarelos falam somente os números.</div>
+      <div class="note">The English translations can be turned on or off. The green/blue buttons speak Danish only. The yellow buttons speak the numbers only.</div>
     </header>
 
     <section class="section">
@@ -101,7 +101,7 @@
     translationToggle.addEventListener('click', () => {
       const hidden = app.classList.toggle('hide-translations');
       translationToggle.setAttribute('aria-pressed', String(!hidden));
-      translationToggle.textContent = hidden ? 'Mostrar traduções em inglês' : 'Ocultar traduções em inglês';
+      translationToggle.textContent = hidden ? 'Show English translations' : 'Hide English translations';
     });
 
     const voiceSelect = document.getElementById('voiceSelect');
