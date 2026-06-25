@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PULS 3 - Dialog 9 Sheng - Memorization</title>
+  <style>
+    :root{
+      --green:#0f766e; --green2:#e6f3f0; --green3:#cfe9e4; --ink:#1f2937; --muted:#6b7280; --line:#d7e2df;
+      --answer:#187447; --answerbg:#eaf7ee; --paper:#fffdf8; --soft:#f7fbfa; --warn:#fff7ed;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#eef5f3;color:var(--ink);line-height:1.55}
+    .page{width:min(100%,980px);margin:0 auto;padding:18px 16px 42px}
+    header{background:linear-gradient(135deg,#0f766e,#168f82);color:white;border-radius:22px;padding:22px;box-shadow:0 10px 26px rgba(15,118,110,.18)}
+    header h1{margin:0 0 4px;font-size:clamp(1.55rem,3.6vw,2.35rem)}
+    header p{margin:5px 0;color:#e7fffb}.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 10px;font-size:.9rem;margin-top:8px}
+    section,.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:16px;box-shadow:0 8px 20px rgba(31,41,55,.06)}
+    h2{margin:0 0 12px;color:var(--green);font-size:1.35rem} h3{margin:14px 0 8px;color:#155e55} .small{font-size:.92rem;color:var(--muted)}
+    .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.controls label{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.controls select,.controls input{max-width:100%;border:1px solid var(--line);border-radius:10px;padding:8px;background:white}
+    button{border:0;border-radius:999px;padding:7px 11px;background:var(--green);color:white;cursor:pointer;font-weight:650;min-height:34px}button:hover{filter:brightness(.96)}button.secondary{background:#dbece9;color:#0f5c54;border:1px solid #bddbd5}button.ghost{background:white;color:var(--green);border:1px solid var(--line)}button.danger{background:#9f1239}.tts{font-size:.85rem;padding:5px 9px;min-height:28px;white-space:nowrap}.numtts{font-size:.78rem;padding:4px 8px;min-height:24px;background:#395569}.pill{display:inline-flex;align-items:center;gap:6px;background:var(--green2);border:1px solid var(--green3);border-radius:999px;padding:3px 9px;color:#145e55;font-size:.88rem}
+    .dialogue{display:grid;gap:10px}.line{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;padding:12px;border:1px solid var(--line);background:#fff;border-radius:14px}.line .n{width:30px;height:30px;border-radius:50%;background:var(--green2);color:#0f766e;display:grid;place-items:center;font-weight:800}.dk{font-size:1.16rem;font-weight:680}.en{font-size:.94rem;color:#667085;margin-top:3px}.actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px}.chunk{display:inline-block;padding:.04em .14em;border-radius:5px}.chunk.hidden{color:transparent;background:#d8ebe7;text-shadow:none}.translation-hidden .en{display:none}.answer{color:var(--answer);background:var(--answerbg);border-radius:8px;padding:1px 5px;font-weight:650}.note{background:#f0faf8;border-left:5px solid var(--green);padding:11px 13px;border-radius:12px;margin:10px 0}.warn{background:var(--warn);border-left:5px solid #f59e0b;padding:11px 13px;border-radius:12px;margin:10px 0}.grid{display:grid;gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.mini{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px}.table-scroll{overflow-x:auto}.book-table{width:100%;border-collapse:separate;border-spacing:0;min-width:520px}.book-table th,.book-table td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}.book-table th{background:var(--green2);color:#155e55}.book-table tr:nth-child(even) td{background:#fbfefd}
+    textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px;font:inherit;background:white}textarea{min-height:170px;resize:vertical}.checklist{list-style:none;padding:0;margin:0;display:grid;gap:8px}.checklist li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.score{font-weight:800;color:var(--green)}.flash{display:grid;gap:10px;text-align:center;padding:22px;background:white;border:1px solid var(--line);border-radius:18px}.flash .big{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:800}.source{font-size:.85rem;color:#68746f;text-align:right;margin-top:8px}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#eef2f2;border:1px solid #d8dfdf;border-radius:6px;padding:1px 5px}
+    @media(max-width:700px){.page{padding:12px}.grid.two,.grid.three{grid-template-columns:1fr}.line{grid-template-columns:1fr}.line .n{width:28px;height:28px}.controls{align-items:stretch}.controls label,.controls select,.controls input,.controls button{width:100%}.actions button{width:auto}.book-table{min-width:480px}section,.card{padding:14px}header{padding:18px}}
+  </style>
+</head>
+<body>
+<div class="page translation-hidden" id="app">
+  <header>
+    <h1>Dialog 9 - Sheng</h1>
+    <p>Memorization page for homework: listen, repeat, hide parts, and practice writing the full text.</p>
+    <span class="badge">PULS - Præsentation 1 - page 10</span>
+  </header>
+
+  <section aria-labelledby="audio-title">
+    <h2 id="audio-title">Dansk lyd</h2>
+    <div class="controls">
+      <label>Voice <select id="voiceSelect"></select></label>
+      <label>Speed <input id="rate" type="range" min="0.55" max="1.15" value="0.82" step="0.05"> <span id="rateVal">0.82</span></label>
+      <button class="secondary" onclick="stopSpeak()">Stop</button>
+      <button class="ghost" onclick="toggleTranslations()">Show/hide English</button>
+      <button class="ghost" onclick="toggleDanishChunks()">Hide/reveal Danish chunks</button>
+    </div>
+    <p class="small">Danish voices depend on your browser and OS. Green text indicates model answers or filled-in answers.</p>
+  </section>
+
+  <section>
+    <h2>Original Danish text</h2>
+    <div class="note">Use this as the source to memorize. Start by listening to one sentence at a time. Then hide Danish chunks and try to say the sentence before revealing it.</div>
+    <div class="dialogue" id="dialogue"></div>
+    <div class="source">Source: Dialog 9 “Sheng”, page 10.</div>
+  </section>
+
+  <section>
+    <h2>Whole text practice</h2>
+    <div class="actions">
+      <button onclick="speakText(fullText)">▶ Listen to all</button>
+      <button class="numtts" onclick="speakText('otteogtyve')">▶ 28</button>
+      <button class="numtts" onclick="speakText('nitten')">▶ 19</button>
+      <button class="numtts" onclick="speakText('tredje')">▶ 3.</button>
+    </div>
+    <p class="small">Try to repeat the whole text without looking.</p>
+    <div class="mini" id="fullTextBox"></div>
+  </section>
+
+  <section>
+    <h2>Memory ladder</h2>
+    <div class="grid two">
+      <div class="mini">
+        <h3>Level 1 - keywords</h3>
+        <p>Say the full sentence from the clue.</p>
+        <ol>
+          <li>Kina → <span class="answer">Sheng kommer fra Kina.</span></li>
+          <li>28 år → <span class="answer">Han er otteogtyve år.</span> <button class="numtts" onclick="speakText('otteogtyve')">▶ 28</button></li>
+          <li>gift + Saxogade + kone → <span class="answer">Han er gift, og han bor i Saxogade sammen med sin kone.</span></li>
+          <li>nummer 19 + 3. sal + venstre → <span class="answer">De bor i nummer 19, tredje sal til venstre.</span> <button class="numtts" onclick="speakText('nitten')">▶ 19</button> <button class="numtts" onclick="speakText('tredje')">▶ 3.</button></li>
+          <li>sprog → <span class="answer">Sheng taler kinesisk og engelsk og lidt dansk.</span></li>
+          <li>kone + englænder → <span class="answer">Shengs kone er englænder.</span></li>
+          <li>Jennifer → <span class="answer">Hun hedder Jennifer.</span></li>
+          <li>sammen → <span class="answer">Sheng og Jennifer taler engelsk sammen.</span></li>
+        </ol>
+      </div>
+      <div class="mini">
+        <h3>Level 2 - structure</h3>
+        <ul class="checklist">
+          <li>1. Country: <span class="answer">kommer fra Kina</span></li>
+          <li>2. Age: <span class="answer">er otteogtyve år</span></li>
+          <li>3. Family + address: <span class="answer">er gift, bor i Saxogade sammen med sin kone</span></li>
+          <li>4. Exact location: <span class="answer">nummer 19, tredje sal til venstre</span></li>
+          <li>5. Languages: <span class="answer">kinesisk, engelsk og lidt dansk</span></li>
+          <li>6. Wife: <span class="answer">englænder, hedder Jennifer</span></li>
+          <li>7. Together: <span class="answer">taler engelsk sammen</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dictation practice</h2>
+    <p class="small">Click “Start dictation”, listen, and type the sentence. Use “Check” to compare with the original.</p>
+    <div class="flash">
+      <div class="pill" id="dictationProgress">Sentence 1 of 8</div>
+      <div class="big" id="dictationPrompt">Ready?</div>
+      <div class="actions" style="justify-content:center">
+        <button onclick="startDictation()">Start dictation</button>
+        <button class="secondary" onclick="repeatDictation()">▶ Repeat</button>
+        <button class="ghost" onclick="nextDictation()">Next</button>
+      </div>
+      <input type="text" id="dictationInput" placeholder="Type the Danish sentence here">
+      <div class="actions" style="justify-content:center"><button onclick="checkDictation()">Check</button><button class="ghost" onclick="showDictationAnswer()">Show answer</button></div>
+      <div id="dictationResult" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fill-in version</h2>
+    <p class="small">Cover the original text and fill the gaps. The answers are shown in green.</p>
+    <div class="grid">
+      <div class="mini">Sheng kommer fra <span class="answer">Kina</span>.</div>
+      <div class="mini">Han er <span class="answer">otteogtyve</span> år. <button class="numtts" onclick="speakText('otteogtyve')">▶ 28</button></div>
+      <div class="mini">Han er <span class="answer">gift</span>, og han bor i <span class="answer">Saxogade</span> sammen med sin <span class="answer">kone</span>.</div>
+      <div class="mini">De bor i nummer <span class="answer">19</span>, <span class="answer">tredje</span> sal til venstre. <button class="numtts" onclick="speakText('nitten')">▶ 19</button> <button class="numtts" onclick="speakText('tredje')">▶ 3.</button></div>
+      <div class="mini">Sheng taler <span class="answer">kinesisk</span> og <span class="answer">engelsk</span> og lidt <span class="answer">dansk</span>.</div>
+      <div class="mini">Shengs kone er <span class="answer">englænder</span>.</div>
+      <div class="mini">Hun hedder <span class="answer">Jennifer</span>.</div>
+      <div class="mini">Sheng og Jennifer taler <span class="answer">engelsk</span> sammen.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Question and answer practice</h2>
+    <div class="table-scroll">
+      <table class="book-table">
+        <thead><tr><th>Question</th><th>Answer</th><th>Listen</th></tr></thead>
+        <tbody id="qaTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Write it from memory</h2>
+    <p>Write the full text below. Then click “Compare”. Small spelling differences are okay for practice, but try to match punctuation too.</p>
+    <textarea id="memoryText" placeholder="Skriv dialogen her..."></textarea>
+    <div class="actions"><button onclick="compareMemory()">Compare</button><button class="ghost" onclick="copyOriginal()">Fill with original</button><button class="secondary" onclick="clearMemory()">Clear</button></div>
+    <div id="compareResult" class="note" style="display:none"></div>
+  </section>
+
+  <section>
+    <h2>Mini grammar reminders from the text</h2>
+    <div class="grid three">
+      <div class="mini"><h3>Subject + verb</h3><p><span class="answer">Sheng kommer</span> fra Kina.</p><p><span class="answer">Han er</span> otteogtyve år.</p></div>
+      <div class="mini"><h3>Address</h3><p>Han bor <span class="answer">i Saxogade</span>.</p><p>De bor <span class="answer">i nummer 19</span>.</p></div>
+      <div class="mini"><h3>Languages</h3><p>Sheng taler <span class="answer">kinesisk</span>, <span class="answer">engelsk</span> og lidt <span class="answer">dansk</span>.</p></div>
+    </div>
+  </section>
+</div>
+<script>
+const lines = [
+  {dk:'Sheng kommer fra Kina.', en:'Sheng comes from China.', nums:[]},
+  {dk:'Han er otteogtyve år.', en:'He is twenty-eight years old.', nums:[{label:'28',text:'otteogtyve'}]},
+  {dk:'Han er gift, og han bor i Saxogade sammen med sin kone.', en:'He is married, and he lives on Saxogade with his wife.', nums:[]},
+  {dk:'De bor i nummer 19, tredje sal til venstre.', en:'They live at number 19, third floor on the left.', nums:[{label:'19',text:'nitten'},{label:'3.',text:'tredje'}]},
+  {dk:'Sheng taler kinesisk og engelsk og lidt dansk.', en:'Sheng speaks Chinese and English and a little Danish.', nums:[]},
+  {dk:'Shengs kone er englænder.', en:'Sheng’s wife is English.', nums:[]},
+  {dk:'Hun hedder Jennifer.', en:'Her name is Jennifer.', nums:[]},
+  {dk:'Sheng og Jennifer taler engelsk sammen.', en:'Sheng and Jennifer speak English together.', nums:[]}
+];
+const questions = [
+  ['Hvor kommer Sheng fra?','Sheng kommer fra Kina.'],
+  ['Hvor gammel er Sheng?','Han er otteogtyve år.'],
+  ['Er Sheng gift?','Ja, han er gift.'],
+  ['Hvor bor Sheng?','Han bor i Saxogade.'],
+  ['Hvem bor Sheng sammen med?','Han bor sammen med sin kone.'],
+  ['Hvilket nummer bor de i?','De bor i nummer 19.'],
+  ['Hvilken sal bor de på?','De bor på tredje sal til venstre.'],
+  ['Hvad sprog taler Sheng?','Han taler kinesisk og engelsk og lidt dansk.'],
+  ['Hvad er Shengs kone?','Hun er englænder.'],
+  ['Hvad hedder Shengs kone?','Hun hedder Jennifer.'],
+  ['Hvad sprog taler Sheng og Jennifer sammen?','De taler engelsk sammen.']
+];
+const fullText = lines.map(x=>x.dk).join('\n');
+let voices=[], currentIdx=0, chunksHidden=false;
+function escapeHtml(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function render(){
+  const d=document.getElementById('dialogue');
+  d.innerHTML=lines.map((l,i)=>`<div class="line"><div class="n">${i+1}</div><div><div class="dk"><span class="chunk">${escapeHtml(l.dk)}</span></div><div class="en">${escapeHtml(l.en)}</div><div class="actions"><button class="tts" onclick="speakText(lines[${i}].dk)">▶ sentence</button>${l.nums.map(n=>`<button class="numtts" onclick="speakText('${n.text}')">▶ ${n.label}</button>`).join('')}<button class="ghost tts" onclick="sayThenPause(${i})">Repeat drill</button></div></div></div>`).join('');
+  document.getElementById('fullTextBox').innerHTML=fullText.split('\n').map((s,i)=>`<p><button class="tts" onclick="speakText(lines[${i}].dk)">▶</button> ${escapeHtml(s)}</p>`).join('');
+  document.getElementById('qaTable').innerHTML=questions.map((q,i)=>`<tr><td>${escapeHtml(q[0])}</td><td><span class="answer">${escapeHtml(q[1])}</span></td><td><button class="tts" onclick="speakText(questions[${i}][0])">▶ Q</button> <button class="tts" onclick="speakText(questions[${i}][1])">▶ A</button></td></tr>`).join('');
+  updateDictationProgress();
+}
+function populateVoices(){
+  voices=speechSynthesis.getVoices();
+  const select=document.getElementById('voiceSelect');
+  const da=voices.filter(v=>/da|Danish/i.test(v.lang+' '+v.name));
+  const list=da.length?da:voices;
+  select.innerHTML=list.map((v,i)=>`<option value="${voices.indexOf(v)}">${escapeHtml(v.name)} (${escapeHtml(v.lang)})</option>`).join('') || '<option>No voices loaded yet</option>';
+  const preferred=voices.findIndex(v=>v.lang && v.lang.toLowerCase().startsWith('da'));
+  if(preferred>=0) select.value=preferred;
+}
+function speakText(text){
+  stopSpeak();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='da-DK';
+  const idx=parseInt(document.getElementById('voiceSelect').value,10);
+  if(voices[idx]) u.voice=voices[idx];
+  u.rate=parseFloat(document.getElementById('rate').value);
+  u.pitch=1;
+  speechSynthesis.speak(u);
+}
+function stopSpeak(){speechSynthesis.cancel();}
+function sayThenPause(i){speakText(lines[i].dk);}
+function toggleTranslations(){document.getElementById('app').classList.toggle('translation-hidden');}
+function toggleDanishChunks(){chunksHidden=!chunksHidden;document.querySelectorAll('.chunk').forEach(c=>c.classList.toggle('hidden',chunksHidden));}
+document.getElementById('rate').addEventListener('input',e=>document.getElementById('rateVal').textContent=e.target.value);
+if('speechSynthesis' in window){populateVoices();speechSynthesis.onvoiceschanged=populateVoices;}
+function normalize(s){return s.toLowerCase().replace(/[.,!?;:]/g,'').replace(/\s+/g,' ').trim();}
+function updateDictationProgress(){document.getElementById('dictationProgress').textContent=`Sentence ${currentIdx+1} of ${lines.length}`;}
+function startDictation(){currentIdx=0;document.getElementById('dictationInput').value='';document.getElementById('dictationPrompt').textContent='Listen and type sentence 1';updateDictationProgress();speakText(lines[currentIdx].dk);}
+function repeatDictation(){speakText(lines[currentIdx].dk);}
+function nextDictation(){currentIdx=(currentIdx+1)%lines.length;document.getElementById('dictationInput').value='';document.getElementById('dictationResult').innerHTML='';document.getElementById('dictationPrompt').textContent=`Listen and type sentence ${currentIdx+1}`;updateDictationProgress();speakText(lines[currentIdx].dk);}
+function checkDictation(){
+  const typed=document.getElementById('dictationInput').value;
+  const ok=normalize(typed)===normalize(lines[currentIdx].dk);
+  document.getElementById('dictationResult').innerHTML=ok?'<p class="score">Correct!</p>':`<p>Not quite. Correct answer: <span class="answer">${escapeHtml(lines[currentIdx].dk)}</span></p>`;
+}
+function showDictationAnswer(){document.getElementById('dictationResult').innerHTML=`<p>Answer: <span class="answer">${escapeHtml(lines[currentIdx].dk)}</span></p>`;}
+function compareMemory(){
+  const typed=document.getElementById('memoryText').value;
+  const a=normalize(typed), b=normalize(fullText);
+  const wordsTyped=a?a.split(' '):[]; const words=b.split(' ');
+  let same=0; for(let i=0;i<Math.min(wordsTyped.length,words.length);i++){ if(wordsTyped[i]===words[i]) same++; }
+  const pct=Math.round((same/words.length)*100);
+  const box=document.getElementById('compareResult'); box.style.display='block';
+  box.innerHTML=`<p class="score">Approximate word-position match: ${pct}%</p><p><strong>Original:</strong></p><p>${fullText.split('\n').map(escapeHtml).join('<br>')}</p>`;
+}
+function copyOriginal(){document.getElementById('memoryText').value=fullText;}
+function clearMemory(){document.getElementById('memoryText').value='';document.getElementById('compareResult').style.display='none';}
+render();
+</script>
+</body>
+</html>
